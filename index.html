@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Simple Calculator</title>
+  <style>
+    :root {
+      --bg: #0D1117;
+      --calc-bg: #161B22;
+      --text: #E6EDF3;
+      --btn-bg: #21262D;
+      --btn-hover: #30363D;
+      --equal-bg: #238636;
+      --equal-hover: #2ea043;
+      --clear-bg: #DA3633;
+      --clear-hover: #f85149;
+    }
+
+    body.light {
+      --bg: #f5f5f5;
+      --calc-bg: #ffffff;
+      --text: #111;
+      --btn-bg: #ddd;
+      --btn-hover: #ccc;
+      --equal-bg: #34c759;
+      --equal-hover: #28a745;
+      --clear-bg: #ff3b30;
+      --clear-hover: #e22c22;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      transition: background 0.3s, color 0.3s;
+    }
+
+    .calculator {
+      background: var(--calc-bg);
+      padding: 25px;
+      border-radius: 20px;
+      box-shadow: 0 0 20px rgba(88,166,255,0.3);
+      width: 90%;
+      max-width: 400px;
+      min-width: 280px;
+    }
+
+    .display {
+      background: var(--bg);
+      padding: 20px;
+      font-size: 2.2rem;
+      text-align: right;
+      border-radius: 12px;
+      margin-bottom: 20px;
+      color: var(--text);
+      word-wrap: break-word;
+      min-height: 60px;
+    }
+
+    .buttons {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 12px;
+    }
+
+    button {
+      padding: 20px;
+      font-size: 1.2rem;
+      border: none;
+      border-radius: 12px;
+      background: var(--btn-bg);
+      color: var(--text);
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+
+    button:hover {
+      background: var(--btn-hover);
+    }
+
+    .equal {
+      background: var(--equal-bg);
+    }
+
+    .equal:hover {
+      background: var(--equal-hover);
+    }
+
+    .clear {
+      background: var(--clear-bg);
+    }
+
+    .clear:hover {
+      background: var(--clear-hover);
+    }
+
+    .top-buttons {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 10px;
+    }
+
+    .top-buttons button {
+      padding: 10px 16px;
+      font-size: 0.9rem;
+      border-radius: 8px;
+    }
+
+    @media (max-width: 400px) {
+      .calculator {
+        width: 95%;
+        padding: 20px;
+      }
+      button {
+        padding: 16px;
+        font-size: 1.1rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="calculator">
+    <div class="top-buttons">
+      <button onclick="copyToClipboard()">📋 Copy</button>
+      <button onclick="toggleTheme()">🌗 Theme</button>
+    </div>
+    <div class="display" id="display">0</div>
+    <div class="buttons">
+      <button onclick="clearDisplay()" class="clear">C</button>
+      <button onclick="append('%')">%</button>
+      <button onclick="append('/')">/</button>
+      <button onclick="append('*')">*</button>
+
+      <button onclick="append('7')">7</button>
+      <button onclick="append('8')">8</button>
+      <button onclick="append('9')">9</button>
+      <button onclick="append('-')">-</button>
+
+      <button onclick="append('4')">4</button>
+      <button onclick="append('5')">5</button>
+      <button onclick="append('6')">6</button>
+      <button onclick="append('+')">+</button>
+
+      <button onclick="append('1')">1</button>
+      <button onclick="append('2')">2</button>
+      <button onclick="append('3')">3</button>
+      <button onclick="calculate()" class="equal">=</button>
+
+      <button onclick="append('0')">0</button>
+      <button onclick="append('.')">.</button>
+    </div>
+  </div>
+
+  <script>
+    const display = document.getElementById('display');
+
+    function append(value) {
+      if (display.innerText === "0" || display.innerText === "Error") {
+        display.innerText = value;
+      } else {
+        display.innerText += value;
+      }
+    }
+
+    function clearDisplay() {
+      display.innerText = "0";
+    }
+
+    function calculate() {
+      try {
+        display.innerText = eval(display.innerText);
+      } catch {
+        display.innerText = "Error";
+      }
+    }
+
+    function copyToClipboard() {
+      navigator.clipboard.writeText(display.innerText)
+        .then(() => alert("Copied to clipboard!"))
+        .catch(() => alert("Failed to copy!"));
+    }
+
+    function toggleTheme() {
+      document.body.classList.toggle('light');
+    }
+  </script>
+</body>
+</html>
